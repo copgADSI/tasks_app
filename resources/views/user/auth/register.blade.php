@@ -2,7 +2,7 @@
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
-        <div id="tasks_list"></div>
+        <div id="register_container"></div>
     </div>
 </div>
 @endsection

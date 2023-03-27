@@ -1,7 +1,7 @@
 import React from 'react';
-
-function HelloWorld(props) {
-  return <div>Hello, {props.name}!</div>;
+import ReactDOM from 'react-dom';
+function App() {
+  return <div>Hello</div>;
 }
 
-export default HelloWorld;
+export default App;

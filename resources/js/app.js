@@ -14,3 +14,4 @@ import './bootstrap';
 
 import './components/App';
 import './components/user/TasksList';
+import './components/user/SingleTask';

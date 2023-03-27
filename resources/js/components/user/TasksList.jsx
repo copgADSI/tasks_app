@@ -1,7 +1,11 @@
 import React from 'react';
-
-function HelloWorld(props) {
-  return <div>Hello, {props.name}!</div>;
+import ReactDOM from 'react-dom';
+function TaskList() {
+  return <div>tasksdsds_list</div>;
 }
 
-export default HelloWorld;
+ReactDOM.render(
+    <TaskList/>, document.getElementById('tasks_list')
+)
+
+export default TaskList;
