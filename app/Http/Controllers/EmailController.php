@@ -14,6 +14,7 @@ class EmailController extends Controller
     {
         $user = User::where('email', $email)->first();
         return response()->json([
+            'found' => is_null($user),
             'message' => is_null($user) ? 'Email no encontrado' : 'Email encontrado en los registros',
             'class_list' => is_null($user) ? 'alert-danger' : 'alert-success'
         ]);
