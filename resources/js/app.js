@@ -12,6 +12,4 @@ import './bootstrap';
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-import './components/App';
-import './components/user/TasksList';
-import './components/user/SingleTask';
+import './components/Example';
