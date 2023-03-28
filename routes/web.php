@@ -28,10 +28,10 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Route::get('/tasks-list', [TasksController::class, 'index']);
+Route::get('/tasks-list', [TasksController::class, 'index'])->name('task-list');
 Route::get('/login', [LoginController::class, 'index']);
 Route::post('/validate-email/{email}', [EmailController::class, 'validateEmail'])->name('validate-email');
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+

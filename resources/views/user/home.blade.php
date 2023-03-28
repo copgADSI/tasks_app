@@ -13,8 +13,12 @@
                             {{ session('status') }}
                         </div>
                     @endif
-
-                    {{ __('You are logged in!') }}
+                    <a href="{{ route('task-list') }}" class="btn btn-outline-primary">
+                        Lista de tareas
+                    </a>
+                    <a href="" class="btn btn-outline-primary">
+                        Mis archivos
+                    </a>
                 </div>
             </div>
         </div>
