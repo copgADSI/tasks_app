@@ -11,4 +11,10 @@ class State extends Model
     protected $table = 'states';
     protected $fillable = ['type'];
     public const STATES = ['sin completar','completado'];
+
+
+    public function tasks()
+    {
+        return $this->hasMany(Task::class, 'state_id');
+    }
 }

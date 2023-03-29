@@ -13,7 +13,7 @@
                             {{ session('status') }}
                         </div>
                     @endif
-                    <a href="{{ route('task-list') }}" class="btn btn-outline-primary">
+                    <a href="{{ route('task.list') }}" class="btn btn-outline-primary">
                         Lista de tareas
                     </a>
                     <a href="" class="btn btn-outline-primary">

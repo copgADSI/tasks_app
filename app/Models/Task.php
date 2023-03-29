@@ -17,14 +17,15 @@ class Task extends Model
 
     //relationships
 
-    public function states()
+    public function state()
     {
         return $this->belongsTo(State::class, 'state_id');
     }
 
 
-    public function users()
+    public function user()
     {
         return $this->belongsTo(User::class, 'user_id');
     }
+    
 }

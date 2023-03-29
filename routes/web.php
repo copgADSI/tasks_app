@@ -28,10 +28,17 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Route::get('/tasks-list', [TasksController::class, 'index'])->name('task-list');
+
 Route::get('/login', [LoginController::class, 'index']);
 Route::post('/validate-email/{email}', [EmailController::class, 'validateEmail'])->name('validate-email');
-
+Route::controller(TasksController::class)->group(function() {
+    Route::get('/tasks-list', 'index')->name('task.list');
+    Route::post('/create', 'store')->name('task.store');
+    Route::delete('/delete-task/{id}', 'destroy')->name('task.destroy');
+    Route::put('/task-update-sate/{id}', 'updateState')->name('task.update_state');
+    Route::put('/update-task/{id}', 'update')->name('task.update');
+    Route::get('/edit-task/{id}', 'edit')->name('task.edit');
+});
 Auth::routes();
 
 
