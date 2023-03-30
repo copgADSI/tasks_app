@@ -19,7 +19,7 @@ class UsersSeeder extends Seeder
             User::create([
                 'name' => $faker->name(),
                 'email' => $faker->email(),
-                'password' => $faker->password(),
+                'password' => bcrypt($faker->password()),
             ]);
         }
 
@@ -28,7 +28,7 @@ class UsersSeeder extends Seeder
             User::create([
                 'name' => $faker->name(),
                 'email' => "admin_{$currentKey}@todo.com",
-                'password' => 'admin123',
+                'password' => bcrypt('admin123'),
             ]);
         }
     }

@@ -44,15 +44,6 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    /* MUTADORES */
-
-    protected function password(): Attribute
-    {
-        return Attribute::make(
-            set: fn (string $value) => bcrypt($value),
-        );
-    }
-
 
      /* RELACIONES */
 

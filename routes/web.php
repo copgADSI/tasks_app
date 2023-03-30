@@ -3,6 +3,7 @@
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\EmailController;
 use App\Http\Controllers\TasksController;
+use App\Http\Controllers\user\FileController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -38,6 +39,10 @@ Route::controller(TasksController::class)->group(function() {
     Route::put('/task-update-sate/{id}', 'updateState')->name('task.update_state');
     Route::put('/update-task/{id}', 'update')->name('task.update');
     Route::get('/edit-task/{id}', 'edit')->name('task.edit');
+});
+Route::controller(FileController::class)->group(function(){
+    Route::get('/files', 'index')->name('files.index');
+
 });
 Auth::routes();
 
