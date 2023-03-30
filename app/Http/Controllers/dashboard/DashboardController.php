@@ -1,9 +1,10 @@
 <?php
 
 namespace App\Http\Controllers\dashboard;
-
+use Dompdf\Dompdf;
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class DashboardController extends Controller
@@ -13,13 +14,24 @@ class DashboardController extends Controller
      */
     public function index()
     {
-        return view('user.home', [
+        $current_date = Carbon::now()->toDateString();
+        
+        $analytics =  [
             'total_users' => User::count(),
-            'total_files' => 2323,
+            'uploaded_files' => 2323,
             'completed_tasks' => 23,
             'pendenting_tasks' => 213
-        ]);
+        ];
+        return view('user.dashboard', compact('analytics', 'current_date'));
     }
+
+    public function generatePdf() {
+        $users = User::all();
+        $pdf = new Dompdf();
+        $pdf->loadView('user.admin.user-list', ['users' => $users]);
+    
+        return $pdf->download('Registros_Usuarios.pdf');
+      }
 
     /**
      * Store a newly created resource in storage.

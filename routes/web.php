@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\dashboard\DashboardController;
 use App\Http\Controllers\EmailController;
 use App\Http\Controllers\TasksController;
 use App\Http\Controllers\user\FileController;
@@ -27,7 +28,7 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 // Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+// Route::get('/dashboard', [App\Http\Controllers\dashboard\DashboardController::class, 'index'])->name('dashboard');
 
 
 Route::get('/login', [LoginController::class, 'index']);
@@ -42,6 +43,11 @@ Route::controller(TasksController::class)->group(function() {
 });
 Route::controller(FileController::class)->group(function(){
     Route::get('/files', 'index')->name('files.index');
+    
+});
+Route::controller(DashboardController::class)->group(function(){
+    Route::get('/dashboard', 'index')->name('dashboard');
+    Route::post('/users-pdf', 'generatePdf')->name('user.pdf');
 
 });
 Auth::routes();
