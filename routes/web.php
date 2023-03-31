@@ -43,6 +43,7 @@ Route::controller(TasksController::class)->group(function() {
 });
 Route::controller(FileController::class)->group(function(){
     Route::get('/files', 'index')->name('files.index');
+    Route::post('/upload-files', 'uploadFiles')->name('files.upload');
 
 });
 Route::controller(DashboardController::class)->group(function(){

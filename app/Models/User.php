@@ -57,4 +57,9 @@ class User extends Authenticatable
     {
         return $this->belongsTo(Role::class, 'role_id');
     }
+
+    public function files()
+    {
+        return $this->hasMany(File::class, 'user_id');
+    }
 }
