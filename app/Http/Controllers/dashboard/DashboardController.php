@@ -3,10 +3,12 @@
 namespace App\Http\Controllers\dashboard;
 
 use App\Http\Controllers\Controller;
+use App\Models\File;
 use App\Models\Task;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use PDF;
 
@@ -17,6 +19,12 @@ class DashboardController extends Controller
      */
     public function index()
     {
+
+        $users = User::getUsersPerMonth();
+        $months = config('months');
+        $chart_users = $months->mapWithKeys(function ($month) use ($users) {
+            return [$month => $users[$month] ?? 0];
+        })->toArray();
         $current_date = Carbon::now()->toDateString();
         $tasks = Task::with('state', 'user');
         if (auth()->user()->role->type !== 'admin') {
@@ -26,12 +34,12 @@ class DashboardController extends Controller
 
         $analytics =  [
             'total_users' => User::count(),
-            'uploaded_files' => 2323,
+            'uploaded_files' => auth()->user()->role->type === 'admin' ?  File::count() : File::where('user_id', auth()->id)->count(),
             'completed_tasks' => $tasks->where('state.type', '=', 'completado')->count(),
             'pendenting_tasks' => $tasks->where('state.type', '=', 'sin completar')->count()
         ];
 
-        return view('user.dashboard', compact('analytics', 'current_date'));
+        return view('user.dashboard', compact('analytics', 'current_date', 'chart_users'));
     }
 
     public function generatePdf(Request $request)

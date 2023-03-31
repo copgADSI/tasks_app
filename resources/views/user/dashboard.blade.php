@@ -5,7 +5,7 @@
 
     <div class="container">
         <div class="row justify-content-center">
-            <div class="col-md-8">
+            <div class="col-md-10">
                 <div class="card">
                     <div class="card-header">{{ __('Dashboard') }}</div>
 
@@ -27,15 +27,15 @@
                         </form>
                         <div class="row">
                             @if (auth()->user()->role->type === 'admin')
-                            <div class="col md-4 card m-2 text-center bg-success text-white">
-                                <div class="m-auto">
-                                    <main>
-                                        <span>Usuarios registrados </span>
-                                    </main>
-                                    <i class="fas fa-user"></i>
-                                    <legend>{{ $analytics['total_users'] }}</legend>
+                                <div class="col md-4 card m-2 text-center bg-success text-white">
+                                    <div class="m-auto">
+                                        <main>
+                                            <span>Usuarios registrados </span>
+                                        </main>
+                                        <i class="fas fa-user"></i>
+                                        <legend>{{ $analytics['total_users'] }}</legend>
+                                    </div>
                                 </div>
-                            </div>
                             @endif
                             <div class="col md-4 card m-2 text-center bg-primary text-white">
                                 <div class="m-auto">
@@ -66,6 +66,19 @@
                                 </div>
                             </div>
                         </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row justify-content-center mt-4">
+            <div class="col-md-10">
+                <div class="card">
+                    <div class="card-header">{{ __('Estadísticas') }}</div>
+                    <div class="card-body">
+                        {{-- CHARTS --}}
+                            
+
+                        {{-- END CHART --}}
                     </div>
                 </div>
             </div>
