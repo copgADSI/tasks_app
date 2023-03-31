@@ -23,7 +23,7 @@
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
-                @if (auth()->user()->id)
+                @if (auth() && auth()->user()->id)
                     <a class="navbar-brand" href="{{ route('dashboard') }}">
                         Gestor de tareas
                     </a>

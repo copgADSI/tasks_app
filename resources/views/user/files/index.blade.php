@@ -28,7 +28,19 @@
                     <div class="card-header">{{ __('Listado de archivos') }}</div>
 
                     <div class="card-body">
-
+                        <ul class="list-group">
+                            @foreach ($files as $file)
+                                <li class="list-group-item">
+                                    <div class="d-flex justify-content-between">
+                                        <span> {{ $file->file_name }} </span>
+                                        <div class="d-flex form-group">
+                                            <a href="{{ asset('storage/' . $file->path) }}" class="btn btn-primary">--</a>
+                                            <a href="" class="btn btn-danger">--</a>
+                                        </div>
+                                    </div>
+                                </li>
+                            @endforeach
+                        </ul>
                     </div>
                 </div>
             </div>
@@ -91,6 +103,7 @@
                 .then(response => {
                     if (response.ok) {
                         alert('Los archivos se han cargado con éxito.');
+                        window.location.reload()
                     } else {
                         alert('Ha ocurrido un error al cargar los archivos.');
                     }
