@@ -17,7 +17,6 @@ class FileController extends Controller
     {
         $user_id = auth()->user()->id;
         /* Se buscan los archivos cargados por un usuario */
-        dd(Storage::allDirectories());
         $files = File::where('user_id', $user_id)->get();
         return view('user.files.index', [
             'files' => $files
@@ -32,10 +31,9 @@ class FileController extends Controller
         if ($request->hasFile('files')) {
             $files = $request->file('files');
             foreach ($files as $file) {
-                $file_name =  $file->getClientOriginalName();
-                $path = Storage::putFile('uploads', $file);
+                $path = $file->store('public/uploads');
                 $file = new File();
-                $file->file_name = str_replace(' ', '_', $file_name);
+                $file->file_name = basename($path);
                 $file->path = $path;
                 $file->user_id = auth()->user()->id;
                 $file->save();
