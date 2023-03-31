@@ -34,7 +34,7 @@
                                     <div class="d-flex justify-content-between">
                                         <span> {{ $file->file_name }} </span>
                                         <div class="d-flex form-group">
-                                            <a href="{{ asset('storage/' . $file->path) }}" class="btn btn-primary">--</a>
+                                            <a target="_blank" href="{{ asset("storage/{$file->path}") }}" class="btn btn-primary">--</a>
                                             <a href="" class="btn btn-danger">--</a>
                                         </div>
                                     </div>

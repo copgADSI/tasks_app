@@ -4,6 +4,7 @@ namespace App\Http\Controllers\user;
 
 use App\Http\Controllers\Controller;
 use App\Models\File;
+use Illuminate\Contracts\Cache\Store;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -16,6 +17,7 @@ class FileController extends Controller
     {
         $user_id = auth()->user()->id;
         /* Se buscan los archivos cargados por un usuario */
+        dd(Storage::allDirectories());
         $files = File::where('user_id', $user_id)->get();
         return view('user.files.index', [
             'files' => $files
