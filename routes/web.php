@@ -24,7 +24,7 @@ Route::get('/', function () {
 
 // Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/home', [App\Http\Controllers\dashboard\DashboardController::class, 'index'])->name('home');
 
 // Auth::routes();
 
@@ -43,11 +43,11 @@ Route::controller(TasksController::class)->group(function() {
 });
 Route::controller(FileController::class)->group(function(){
     Route::get('/files', 'index')->name('files.index');
-    
+
 });
 Route::controller(DashboardController::class)->group(function(){
     Route::get('/dashboard', 'index')->name('dashboard');
-    Route::post('/users-pdf', 'generatePdf')->name('user.pdf');
+    Route::get('/generate-pdf', 'generatePdf')->name('dashboard.generete-pdf');
 
 });
 Auth::routes();

@@ -1,11 +1,14 @@
 <?php
 
 namespace App\Http\Controllers\dashboard;
-use Dompdf\Dompdf;
+
 use App\Http\Controllers\Controller;
+use App\Models\Task;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use PDF;
 
 class DashboardController extends Controller
 {
@@ -15,23 +18,39 @@ class DashboardController extends Controller
     public function index()
     {
         $current_date = Carbon::now()->toDateString();
-        
+        $tasks = Task::with('state', 'user');
+        if (auth()->user()->role->type !== 'admin') {
+            $tasks = $tasks->where('user_id', auth()->user()->id);
+        }
+        $tasks = $tasks->get();
+
         $analytics =  [
             'total_users' => User::count(),
             'uploaded_files' => 2323,
-            'completed_tasks' => 23,
-            'pendenting_tasks' => 213
+            'completed_tasks' => $tasks->where('state.type', '=', 'completado')->count(),
+            'pendenting_tasks' => $tasks->where('state.type', '=', 'sin completar')->count()
         ];
+
         return view('user.dashboard', compact('analytics', 'current_date'));
     }
 
-    public function generatePdf() {
-        $users = User::all();
-        $pdf = new Dompdf();
-        $pdf->loadView('user.admin.user-list', ['users' => $users]);
-    
-        return $pdf->download('Registros_Usuarios.pdf');
-      }
+    public function generatePdf(Request $request)
+    {
+
+        $users = User::whereBetween(DB::raw('DATE(created_at)'), [
+            $request->start_date,
+            $request->end_date
+        ])->get();
+        $data = [
+            'title' => 'Welcome to ItSolutionStuff.com',
+            'date' => date('m/d/Y'),
+            'users' => $users,
+            'start_date' => $request->start_date,
+            'end_date' => $request->end_date
+        ];
+        $pdf = PDF::loadView('user.admin.users-list', $data);
+        return $pdf->download('itsolutionstuff.pdf');
+    }
 
     /**
      * Store a newly created resource in storage.

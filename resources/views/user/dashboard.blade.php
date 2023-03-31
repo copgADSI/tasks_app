@@ -10,14 +10,23 @@
                     <div class="card-header">{{ __('Dashboard') }}</div>
 
                     <div class="card-body">
-                        <form action="" class="form-control" id="downloaded_pdf_form">
+                        <form action="{{ route('dashboard.generete-pdf') }} " method="GET" class="form-control"
+                            id="downloaded_pdf_form">
                             <div class="d-flex form-container">
-                                <input required type="date" class="form-control" value="{{ $current_date }}">
-                                <input required type="date" class="form-control" value="{{ $current_date }}">
+                                {{-- <select name="type" id="type" class="form-control">
+                                    <option value="">Seleccionar un tipo de registro</option>
+                                    <option value="">Usuarios</option>
+                                    <option value="">Archivos subidos</option>
+                                </select> --}}
+                                <input required type="date" name="start_date" class="form-control"
+                                    value="{{ $current_date }}">
+                                <input required type="date" name="end_date" class="form-control"
+                                    value="{{ $current_date }}">
                                 <button type="submit" class="btn btn-danger mx-1"><i class="fas fa-file-pdf"></i></button>
                             </div>
                         </form>
                         <div class="row">
+                            @if (auth()->user()->role->type === 'admin')
                             <div class="col md-4 card m-2 text-center bg-success text-white">
                                 <div class="m-auto">
                                     <main>
@@ -27,6 +36,7 @@
                                     <legend>{{ $analytics['total_users'] }}</legend>
                                 </div>
                             </div>
+                            @endif
                             <div class="col md-4 card m-2 text-center bg-primary text-white">
                                 <div class="m-auto">
                                     <main>
@@ -64,27 +74,4 @@
             integrity="sha384-rOA1PnstxnOBLzCLMcre8ybwbTmemjzdNlILg8O7z1lUkLXozs4DHonlDtnE7fpc" crossorigin="anonymous">
         </script>
     </div>
-    <script>
-        const downloaded_pdf_form = document.getElementById("downloaded_pdf_form");
-        downloaded_pdf_form.addEventListener('submit', (event) => {
-            event.preventDefault();
-            const URL = ''
-
-            const pdf_path = './reporte.pdf';
-
-            // Configuración de Axios para la descarga del archivo
-            const axios_config = {
-                responseType: 'stream'
-            };
-
-            // Descarga del archivo con Axios y guardado en disco
-            axios.get(URL, axios_config)
-                .then(response => {
-                    response.data.pipe(fs.createWriteStream(pdf_path));
-                })
-                .catch(error => {
-                    console.log(error);
-                });
-        })
-    </script>
 @endsection
