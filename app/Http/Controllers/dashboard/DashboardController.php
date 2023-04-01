@@ -44,19 +44,40 @@ class DashboardController extends Controller
     public function generatePdf(Request $request)
     {
 
-        $users = User::whereBetween(DB::raw('DATE(created_at)'), [
+        $tasks = User::getUsersByDueDate(
             $request->start_date,
             $request->end_date
-        ])->get();
+        );
+        $users = Task::getTasksByUserId();
         $data = [
-            'title' => 'Welcome to ItSolutionStuff.com',
+            'title' => 'Reporte general',
             'date' => date('m/d/Y'),
             'users' => $users,
+            'tasks' => $tasks,
             'start_date' => $request->start_date,
             'end_date' => $request->end_date
         ];
-        $pdf = PDF::loadView('user.admin.users-list', $data);
-        return $pdf->download('itsolutionstuff.pdf');
+
+        $role = auth()->user()->role->type;
+        if ($role === 'admin') {
+            $this->generateUsersReport($data);
+        } else {
+            $this->generateTasksReport($data);
+        }
+    }
+
+
+    private function generateUsersReport(array $data)
+    {
+        $pdf = PDF::loadView('user.reports.admin.users-list', $data);
+        return $pdf->download('reporte_usuarios_registrados.pdf');
+    }
+
+    private function generateTasksReport(
+        array $data
+    ) {
+        $pdf = PDF::loadView('user.reports.customer.taks-list', $data);
+        return $pdf->download('reporte_tareas_creadas.pdf');
     }
 
     /**

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class Task extends Model
 {
@@ -15,6 +16,11 @@ class Task extends Model
         'state_id'
     ];
 
+    public static function getTasksByUserId()
+    {
+        $user_id = auth()->user()->id;
+        return DB::table('tasks')->where('user_id', '=',  $user_id)->get();
+    }
     //relationships
 
     public function state()
@@ -27,5 +33,4 @@ class Task extends Model
     {
         return $this->belongsTo(User::class, 'user_id');
     }
-    
 }
