@@ -31,7 +31,6 @@ class DashboardController extends Controller
             $tasks = $tasks->where('user_id', auth()->user()->id);
         }
         $tasks = $tasks->get();
-
         $analytics =  [
             'total_users' => User::count(),
             'uploaded_files' => auth()->user()->role->type === 'admin' ?  File::count() : File::where('user_id', auth()->id)->count(),
