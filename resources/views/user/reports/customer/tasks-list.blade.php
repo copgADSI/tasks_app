@@ -69,16 +69,16 @@
 
     <ul>
 
-        <table>
-            <thead>
-                <tr>
-                    <th>Descripción</th>
-                    <th>Estado</th>
-                    <th>Fecha creación</th>
-                </tr>
-            </thead>
-            <tbody>
-                @if (count($tasks) > 0)
+        @if (count($tasks) > 0)
+            <table>
+                <thead>
+                    <tr>
+                        <th>Descripción</th>
+                        <th>Estado</th>
+                        <th>Fecha creación</th>
+                    </tr>
+                </thead>
+                <tbody>
                     @foreach ($tasks as $task)
                         <tr>
                             <td> {{ $task->description }} </td>
@@ -91,13 +91,11 @@
                             <td> {{ $user->created_at }} </td>
                         </tr>
                     @endforeach
-                @else
-                    <tr>
-                        <td>No se encontraron tareas...</td>
-                    </tr>
-                @endif
-            </tbody>
-        </table>
+                </tbody>
+            </table>
+        @else
+            <div>No se encontraron tareas...</div>
+        @endif
     </ul>
 </body>
 

@@ -31,9 +31,10 @@ class DashboardController extends Controller
             $tasks = $tasks->where('user_id', auth()->user()->id);
         }
         $tasks = $tasks->get();
+
         $analytics =  [
             'total_users' => User::count(),
-            'uploaded_files' => auth()->user()->role->type === 'admin' ?  File::count() : File::where('user_id', auth()->id)->count(),
+            'uploaded_files' => auth()->user()->role->type === 'admin' ?  File::count() : File::where('user_id', auth()->user()->id)->count(),
             'completed_tasks' => $tasks->where('state.type', '=', 'completado')->count(),
             'pendenting_tasks' => $tasks->where('state.type', '=', 'sin completar')->count()
         ];
@@ -44,11 +45,11 @@ class DashboardController extends Controller
     public function generatePdf(Request $request)
     {
 
-        $tasks = User::getUsersByDueDate(
+        $users = User::getUsersByDateRange(
             $request->start_date,
             $request->end_date
         );
-        $users = Task::getTasksByUserId();
+        $tasks = Task::getTasksByUserId();
         $data = [
             'title' => 'Reporte general',
             'date' => date('m/d/Y'),
@@ -60,9 +61,9 @@ class DashboardController extends Controller
 
         $role = auth()->user()->role->type;
         if ($role === 'admin') {
-            $this->generateUsersReport($data);
+            return $this->generateUsersReport($data);
         } else {
-            $this->generateTasksReport($data);
+            return $this->generateTasksReport($data);
         }
     }
 
@@ -76,7 +77,7 @@ class DashboardController extends Controller
     private function generateTasksReport(
         array $data
     ) {
-        $pdf = PDF::loadView('user.reports.customer.taks-list', $data);
+        $pdf = PDF::loadView('user.reports.customer.tasks-list', $data);
         return $pdf->download('reporte_tareas_creadas.pdf');
     }
 

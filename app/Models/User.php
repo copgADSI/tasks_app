@@ -57,11 +57,13 @@ class User extends Authenticatable
             })
             ->toArray();
     }
-    public static function getUsersByDueDate(string $start_date, string $end_date)
+
+
+    public static function getUsersByDateRange(string $start_date, string $end_date)
     {
-        return DB::table('users')->whereBetween(DB::raw('DATE(created_at)'), [
-            $start_date,
-            $end_date
+        return DB::table('users')->whereBetween('created_at', [
+            $start_date . ' 00:00:00',
+            $end_date . ' 23:59:59'
         ])->get();
     }
 
