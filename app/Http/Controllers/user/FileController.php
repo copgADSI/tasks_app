@@ -4,6 +4,7 @@ namespace App\Http\Controllers\user;
 
 use App\Http\Controllers\Controller;
 use App\Models\File;
+use App\Models\User;
 use Illuminate\Contracts\Cache\Store;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -66,8 +67,12 @@ class FileController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(File $file)
     {
-        //
+        if ($file->user_id === auth()->user()->id) {
+            Storage::delete($file->path);
+            $file->delete();
+            return redirect()->route('files.index')->with('success', 'Archivo eliminado exitosamente');
+        }
     }
 }

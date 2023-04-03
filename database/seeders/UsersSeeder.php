@@ -28,7 +28,7 @@ class UsersSeeder extends Seeder
             ]);
         }
 
-        foreach (range(1, 10)  as $key => $index) {
+        /* foreach (range(1, 10)  as $key => $index) {
             $currentKey  = $key + 1;
             User::create([
                 'name' => $faker->name(),
@@ -36,6 +36,6 @@ class UsersSeeder extends Seeder
                 'password' => bcrypt('admin123'),
                 'role_id' => 1
             ]);
-        }
+        } */
     }
 }

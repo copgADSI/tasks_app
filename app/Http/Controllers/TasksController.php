@@ -78,9 +78,10 @@ class TasksController extends Controller
     public function destroy(int $id)
     {
         $task = Task::findOrFail($id);
-        $task->delete();
-
-        return redirect()->route('task.list')->with('success', 'Tarea eliminada exitosamente');
+        if ($task->user_id === auth()->user()->id) {
+            $task->delete();
+            return redirect()->route('task.list')->with('success', 'Tarea eliminada exitosamente');
+        }
     }
 
     public function updateState(int $id)

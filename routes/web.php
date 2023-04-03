@@ -33,7 +33,7 @@ Route::get('/home', [App\Http\Controllers\dashboard\DashboardController::class, 
 
 Route::get('/login', [LoginController::class, 'index']);
 Route::post('/validate-email/{email}', [EmailController::class, 'validateEmail'])->name('validate-email');
-Route::controller(TasksController::class)->group(function() {
+Route::controller(TasksController::class)->group(function () {
     Route::get('/tasks-list', 'index')->name('task.list');
     Route::post('/create', 'store')->name('task.store');
     Route::delete('/delete-task/{id}', 'destroy')->name('task.destroy');
@@ -41,16 +41,13 @@ Route::controller(TasksController::class)->group(function() {
     Route::put('/update-task/{id}', 'update')->name('task.update');
     Route::get('/edit-task/{id}', 'edit')->name('task.edit');
 });
-Route::controller(FileController::class)->group(function(){
+Route::controller(FileController::class)->group(function () {
     Route::get('/files', 'index')->name('files.index');
     Route::post('/upload-files', 'uploadFiles')->name('files.upload');
-
+    Route::delete('/delete-file/{file}', 'destroy')->name('files.destroy');
 });
-Route::controller(DashboardController::class)->group(function(){
+Route::controller(DashboardController::class)->group(function () {
     Route::get('/dashboard', 'index')->name('dashboard');
     Route::get('/generate-pdf', 'generatePdf')->name('dashboard.generete-pdf');
-
 });
 Auth::routes();
-
-

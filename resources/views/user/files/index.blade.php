@@ -34,9 +34,16 @@
                                     <div class="d-flex justify-content-between">
                                         <span> {{ $file->file_name }} </span>
                                         <div class="d-flex form-group">
-                                            <a class="btn btn-primary" href="{{ Storage::url($file->path) }}" target="_blank">Ver archivo</a>
-                                            <a class="btn btn-success">Descargar</a>
-                                            <a class="btn btn-danger">Eliminar</a>
+                                            <a class="btn btn-primary" href="{{ Storage::url($file->path) }}"
+                                                target="_blank">Ver archivo</a>
+                                            <a class="btn btn-success"  href="{{ Storage::url($file->path) }}"  download >Descargar</a>
+                                            <form
+                                                action="{{ route('files.destroy', ['file' => $file->id]) }}"
+                                                method="post">
+                                                @method('DELETE')
+                                                @csrf
+                                                <button type="submit" class="btn btn-danger" onclick="return confirm('¿Estás seguro eliminar el siguiente archivo?')">Eliminar</button>
+                                            </form>
                                         </div>
                                     </div>
                                 </li>
