@@ -31,9 +31,10 @@ class DashboardController extends Controller
             $tasks = $tasks->where('user_id', auth()->user()->id);
         }
         $tasks = $tasks->get();
+
         $analytics =  [
             'total_users' => User::count(),
-            'uploaded_files' => auth()->user()->role->type === 'admin' ?  File::count() : File::where('user_id', auth()->id)->count(),
+            'uploaded_files' => auth()->user()->role->type === 'admin' ?  File::count() : File::where('user_id', auth()->user()->id)->count(),
             'completed_tasks' => $tasks->where('state.type', '=', 'completado')->count(),
             'pendenting_tasks' => $tasks->where('state.type', '=', 'sin completar')->count()
         ];
@@ -44,19 +45,40 @@ class DashboardController extends Controller
     public function generatePdf(Request $request)
     {
 
-        $users = User::whereBetween(DB::raw('DATE(created_at)'), [
+        $users = User::getUsersByDateRange(
             $request->start_date,
             $request->end_date
-        ])->get();
+        );
+        $tasks = Task::getTasksByUserId();
         $data = [
-            'title' => 'Welcome to ItSolutionStuff.com',
+            'title' => 'Reporte general',
             'date' => date('m/d/Y'),
             'users' => $users,
+            'tasks' => $tasks,
             'start_date' => $request->start_date,
             'end_date' => $request->end_date
         ];
-        $pdf = PDF::loadView('user.admin.users-list', $data);
-        return $pdf->download('itsolutionstuff.pdf');
+
+        $role = auth()->user()->role->type;
+        if ($role === 'admin') {
+            return $this->generateUsersReport($data);
+        } else {
+            return $this->generateTasksReport($data);
+        }
+    }
+
+
+    private function generateUsersReport(array $data)
+    {
+        $pdf = PDF::loadView('user.reports.admin.users-list', $data);
+        return $pdf->download('reporte_usuarios_registrados.pdf');
+    }
+
+    private function generateTasksReport(
+        array $data
+    ) {
+        $pdf = PDF::loadView('user.reports.customer.tasks-list', $data);
+        return $pdf->download('reporte_tareas_creadas.pdf');
     }
 
     /**

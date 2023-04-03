@@ -59,24 +59,28 @@
 
     <ul>
 
-        <table>
-            <thead>
-                <tr>
-                    <th>Nombre</th>
-                    <th>Email</th>
-                    <th>Fecha creación</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach ($users as $user)
+        @if ($users->isNotEmpty())
+            <table>
+                <thead>
                     <tr>
-                        <td> {{ $user->name }} </td>
-                        <td> {{ $user->email }} </td>
-                        <td> {{ $user->created_at }} </td>
+                        <th>Nombre</th>
+                        <th>Email</th>
+                        <th>Fecha creación</th>
                     </tr>
-                @endforeach
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    @foreach ($users as $user)
+                        <tr>
+                            <td> {{ $user->name }} </td>
+                            <td> {{ $user->email }} </td>
+                            <td> {{ $user->created_at }} </td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        @else
+            <div style="background:  red; color: white ">No se encontraron usuarios registrados en las fechas seleccionadas...</div>
+        @endif
         <!-- Agrega otros campos del modelo User que desees mostrar en el PDF -->
     </ul>
 </body>
