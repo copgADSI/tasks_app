@@ -4,10 +4,12 @@ namespace App\Http\Controllers\user;
 
 use App\Http\Controllers\Controller;
 use App\Models\File;
+use App\Models\Shared;
 use App\Models\User;
 use Illuminate\Contracts\Cache\Store;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Svg\Tag\Shape;
 
 class FileController extends Controller
 {
@@ -16,11 +18,14 @@ class FileController extends Controller
      */
     public function index()
     {
+        $users = User::with('files','shared')->get();
+        dd($users[0]);
         $user_id = auth()->user()->id;
         /* Se buscan los archivos cargados por un usuario */
         $files = File::where('user_id', $user_id)->get();
         return view('user.files.index', [
-            'files' => $files
+            'files' => $files,
+            'users' => $users
         ]);
     }
 
@@ -74,5 +79,26 @@ class FileController extends Controller
             $file->delete();
             return redirect()->route('files.index')->with('success', 'Archivo eliminado exitosamente');
         }
+    }
+
+    public function shareFile(Request $request)
+    {
+        $request->validate([
+            'users_ids' => 'array',
+            'file_id' => 'numeric'
+        ]);
+        $shared = new Shared();
+        $user_ids = explode(',', $request->input('users_list'));
+        $data = [];
+        foreach ($user_ids as $user_id) {
+            $data[] = [
+                'user_id' => $user_id,
+                'file_id' => $request->input('file_id'),
+            ];
+        }
+        $shared->insert($data);
+        return response()->json([
+            'message' => 'Archivo compartido con éxito'
+        ], 200);
     }
 }

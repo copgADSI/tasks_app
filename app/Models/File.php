@@ -21,4 +21,9 @@ class File extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function shared()
+    {
+        return $this->hasMany(Shared::class, 'file_id');
+    }
 }

@@ -45,6 +45,10 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    protected $appends = [
+        'full_name'
+    ];
+
 
     public static function getUsersPerMonth()
     {
@@ -68,6 +72,10 @@ class User extends Authenticatable
     }
 
 
+    public function getFullNameAttribute(): string
+    {
+        return $this->name . '._';;
+    }
 
 
     /* RELACIONES */
@@ -86,5 +94,10 @@ class User extends Authenticatable
     public function files()
     {
         return $this->hasMany(File::class, 'user_id');
+    }
+
+    public function shared()
+    {
+        return $this->hasMany(shared::class, 'user_id');
     }
 }

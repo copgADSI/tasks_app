@@ -45,6 +45,7 @@ Route::controller(FileController::class)->group(function () {
     Route::get('/files', 'index')->name('files.index');
     Route::post('/upload-files', 'uploadFiles')->name('files.upload');
     Route::delete('/delete-file/{file}', 'destroy')->name('files.destroy');
+    Route::post('/share-files', 'shareFile')->name('files.share');
 });
 Route::controller(DashboardController::class)->group(function () {
     Route::get('/dashboard', 'index')->name('dashboard');
